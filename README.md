@@ -70,22 +70,20 @@ Use this space to show useful examples of how a project can be used. Additional 
 
 
 ## Contact
-Name- Sakshi Mittal
+**Name**- 
+
+		Sakshi Mittal
+				
+		Jyotasana 
+				
+		Saumya Diwivedi
+				
+		Harshit Vats 
 
 
-      Jyotasana 
-
-	 
-      Saumya Diwivedi
-
-	 
-      Harshit Vats 
-
-
-
-Repo link- https://github.com/Harshitvats27/cyber_education
+**Repo link**- https://github.com/Harshitvats27/cyber_education
 
 
 
 
-PPT  link -https://1drv.ms/p/c/f21ca099e0a7e3aa/Ef5aLVHi-3FKpH3zWncnOEcBJ6jblFomgTV7-UJsyzlAJw?e=pAtXgA
+**PPT  link** -https://1drv.ms/p/c/f21ca099e0a7e3aa/Ef5aLVHi-3FKpH3zWncnOEcBJ6jblFomgTV7-UJsyzlAJw?e=pAtXgA
