@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>644739020642-b87e79e0ererp29k0cg9dpk9o538difv.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.644739020642-b87e79e0ererp29k0cg9dpk9o538difv</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB518Q3BXytY7ZQDUFoUsUls_gEGX8ux1I</string>
+	<key>GCM_SENDER_ID</key>
+	<string>644739020642</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.cyberEducation</string>
+	<key>PROJECT_ID</key>
+	<string>cyber-education-40597</string>
+	<key>STORAGE_BUCKET</key>
+	<string>cyber-education-40597.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:644739020642:ios:f138d01b22e8bc8f5f9e3b</string>
+</dict>
+</plist>
