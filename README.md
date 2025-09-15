@@ -36,36 +36,39 @@ Follow these steps to set up and run the project locally on your system.
 
 ##  Prerequisites
 
-Before running the app, make sure you have the following installed:
+ Before running the app, make sure you have the following installed:
 
-- [Flutter SDK](https://docs.flutter.dev/get-started/install)
-- [Android Studio](https://developer.android.com/studio) or [Visual Studio Code](https://code.visualstudio.com/) with Flutter/Dart plugins
-- An emulator or a connected physical device
+ ## Installation
+ 
+🚀 Run Locally
+1. **Clone the repository**
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
 
-Verify your Flutter installation:
-
-```bash
-flutter doctor
-
-## Installation
-
-Clone the repository
-
-git clone https://github.com/github_username/repo_name.git
-cd repo_name
-
-
-Get project dependencies
-
+2. **Install dependencies**
 flutter pub get
 
+3. **Run the app**
 
-Run the application
+👉 For VS Code / Terminal
+  flutter run
 
-flutter run
----
+👉 For Android Studio
+
+Open Android Studio
+Click on Open an Existing Project and select the cloned folder
+Let Gradle sync and then press the ▶ Run button
+
+4. **Build APK (optional)**
+
+  If you want to generate APK:
+  flutter build apk --release
+
+**APK will be saved in:**
+build/app/outputs/flutter-apk/app-release.apk
+
 ## Usage
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space.
-![WhatsApp Image 2025-09-15 at 21 49 37_6aefc8e5](https://github.com/user-attachments/assets/dce2feea-a90d-435f-83aa-dc849474d262)
+Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources
+![WhatsApp Image 2025-09-15 at 21 49 37_8f2db126](https://github.com/user-attachments/assets/c3fe8ae0-d382-4557-be29-e4b77a19892a)
 
 
