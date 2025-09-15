@@ -70,9 +70,15 @@ Use this space to show useful examples of how a project can be used. Additional 
 
 
 ## Contact
-Name- Sakshi Mittal 
+Name- Sakshi Mittal
+
+
       Jyotasana 
+
+	 
       Saumya Diwivedi
+
+	 
       Harshit Vats 
 
 
