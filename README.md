@@ -65,13 +65,7 @@ Run the application
 flutter run
 
 ## Usage
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. 
-![WhatsApp Image 2025-09-15 at 21 10 13_416767aa](https://github.com/user-attachments/assets/5f01cf1f-9214-4bdd-80f6-e1fa0c8463f9)
-![WhatsApp Image 2025-09-15 at 21 49 36_23a36c2c](https://github.com/user-attachments/assets/669aad2b-5a6a-4623-bd15-2246ea5dee81)
-![WhatsApp Image 2025-09-15 at 21 10 01_018680be](https://github.com/user-attachments/assets/23bd8996-9d57-48ef-9ac9-401939b24bed)
-![WhatsApp Image 2025-09-15 at 21 10 01_c7b78760](https://github.com/user-attachments/assets/8dbe3879-3f62-4396-a0df-bf11a34a6dde)
-![WhatsApp Image 2025-09-15 at 21 18 38_ca86a5c9](https://github.com/user-attachments/assets/d0f22141-c0d8-404b-97fb-a64013737f38)
-![WhatsApp Image 2025-09-15 at 21 43 56_639447e1](https://github.com/user-attachments/assets/c94152af-08a8-4691-9114-9be60f7eaf6d)
-![WhatsApp Image 2025-09-15 at 21 49 37_2c948f37](https://github.com/user-attachments/assets/4cf8edb7-9445-4d50-b2fe-6f02b16119ca)
+Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space.
+![WhatsApp Image 2025-09-15 at 21 49 37_6aefc8e5](https://github.com/user-attachments/assets/dce2feea-a90d-435f-83aa-dc849474d262)
 
 
