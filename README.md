@@ -76,7 +76,7 @@ Use this space to show useful examples of how a project can be used. Additional 
 				
 		Jyotasana 
 				
-		Saumya Diwivedi
+		Saumya Dwivedi
 				
 		Harshit Vats 
 
