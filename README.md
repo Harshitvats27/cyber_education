@@ -11,17 +11,27 @@
 It combines tutorials, resources, and gamified learning to help beginners and professionals improve their skills.  
 
 ---
-##  Built With  
+## 🚀 Built With  
 
 This project uses the following technologies:  
 
 - ![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)  
+- ![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)  
+- ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)  
+- ![Firestore](https://img.shields.io/badge/Firestore-FF7139?style=for-the-badge&logo=firebase&logoColor=white)  
 - ![C++](https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)  
 - ![CMake](https://img.shields.io/badge/CMake-064F8C?style=for-the-badge&logo=cmake&logoColor=white)  
 - ![Swift](https://img.shields.io/badge/Swift-FA7343?style=for-the-badge&logo=swift&logoColor=white)  
 - ![C](https://img.shields.io/badge/C-A8B9CC?style=for-the-badge&logo=c&logoColor=white)  
-- ![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-  
+- ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)  
+
+**Frontend**-Flutter (Dart)
+
+**Backend**-Firebase (Auth, Functions, Storage, etc.)
+
+**Database**- Firebase Firestore
+
+
 #  Getting Started
 
 Follow these steps to set up and run the project locally on your system.
