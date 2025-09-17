@@ -29,15 +29,26 @@ class FirebaseAuthService {
       final User? user = userCredential.user;
 
       if (user != null) {
-        // 🔹 Save user data in Firestore
-        await _firestore.collection("users").doc(user.uid).set({
-          "uid": user.uid,
-          "name": user.displayName ?? "",
-          "email": user.email ?? "",
-          "photoUrl": user.photoURL ?? "",
-          "createdAt": FieldValue.serverTimestamp(),
-          "lastLogin": FieldValue.serverTimestamp(),
-        }, SetOptions(merge: true)); // ✅ Merge to avoid overwriting
+        final leaderboardDoc = _firestore.collection("leaderboard").doc(user.uid);
+        final docSnapshot = await leaderboardDoc.get();
+
+        if (!docSnapshot.exists) {
+          // 🔹 First-time login: set score = 0
+          await leaderboardDoc.set({
+            "uid": user.uid,
+            "name": user.displayName ?? "",
+            "email": user.email ?? "",
+            "photoUrl": user.photoURL ?? "",
+            "score": 0, // first-time score
+            "createdAt": FieldValue.serverTimestamp(),
+            "lastLogin": FieldValue.serverTimestamp(),
+          });
+        } else {
+          // 🔹 Subsequent logins: only update lastLogin
+          await leaderboardDoc.update({
+            "lastLogin": FieldValue.serverTimestamp(),
+          });
+        }
       }
 
       return user;

@@ -1,132 +1,147 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:lottie/lottie.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class LeaderboardPage extends StatefulWidget {
-  final String role; // e.g., Software, Cybersecurity
-  const LeaderboardPage({super.key, required this.role});
+class LeaderboardScreen extends StatefulWidget {
+  final String role;
+  const LeaderboardScreen({super.key, required this.role});
 
   @override
-  State<LeaderboardPage> createState() => _LeaderboardPageState();
+  State<LeaderboardScreen> createState() => _LeaderboardScreenState();
 }
 
-class _LeaderboardPageState extends State<LeaderboardPage> {
-  bool isLoading = true;
-  String errorMessage = "";
-  List<Map<String, dynamic>> leaderboard = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _loadLeaderboard();
-  }
-
-  Future<void> _loadLeaderboard() async {
-    setState(() {
-      isLoading = true;
-      leaderboard.clear();
-      errorMessage = "";
-    });
-
-    try {
-      final usersSnapshot =
-      await FirebaseFirestore.instance.collection("users").get();
-
-      if (usersSnapshot.docs.isEmpty) {
-        setState(() {
-          errorMessage = "No users found.";
-          isLoading = false;
-        });
-        return;
-      }
-
-      for (var userDoc in usersSnapshot.docs) {
-        final roleDoc = await userDoc.reference
-            .collection("roles")
-            .doc("Software")
-            .get();
-
-        if (roleDoc.exists) {
-          leaderboard.add({
-            "name": userDoc["name"] ?? "Unknown",
-            "score": roleDoc["score"] ?? 0,
-          });
-        }
-      }
-
-      // Sort descending by score
-      leaderboard.sort((a, b) => (b["score"] as int).compareTo(a["score"] as int));
-
-      setState(() {
-        isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        errorMessage = "Failed to load leaderboard: $e";
-        isLoading = false;
-      });
-    }
-  }
-
-  Widget _buildTopRankAnimation(int index) {
-    // 🎖️ Display trophy/confetti animations for top 3
-    if (index == 0) {
-      return Lottie.asset("assets/animation/Technology.json", width: 60);
-    } else if (index == 1) {
-      return Lottie.asset("assets/animation/datasecurity.json", width: 60);
-    } else if (index == 2) {
-      return Lottie.asset("assets/animations/bronze_trophy.json", width: 60);
-    } else {
-      return CircleAvatar(
-        backgroundColor: Colors.deepPurple,
-        child: Text("${index + 1}", style: const TextStyle(color: Colors.white)),
-      );
-    }
+class _LeaderboardScreenState extends State<LeaderboardScreen> {
+  Future<void> _refreshLeaderboard() async {
+    await Future.delayed(const Duration(seconds: 1));
+    setState(() {}); // Trigger rebuild
   }
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
+      backgroundColor: isDarkMode ? Colors.black : Colors.white,
       appBar: AppBar(
-        title: Text("${widget.role} Leaderboard"),
-        backgroundColor: Colors.deepPurple,
+        title: Text(
+          "🏆 Leaderboard",
+          style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor:
+        isDarkMode ? Colors.deepPurple[800] : Colors.deepPurple[400],
+        centerTitle: true,
+        elevation: 8,
+        shadowColor: Colors.purpleAccent,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            color: isDarkMode ? Colors.white : Colors.black,
+            onPressed: _refreshLeaderboard,
+          ),
+        ],
       ),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : errorMessage.isNotEmpty
-          ? Center(
-        child: Text(errorMessage,
-            style: const TextStyle(color: Colors.red)),
-      )
-          : ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: leaderboard.length,
-        itemBuilder: (context, index) {
-          final user = leaderboard[index];
-          return Card(
-            elevation: 6,
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16)),
-            child: ListTile(
-              leading: _buildTopRankAnimation(index),
-              title: Text(
-                user["name"],
-                style: const TextStyle(
-                    fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              trailing: Text(
-                "${user["score"]} pts",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: index < 3
-                        ? Colors.orange
-                        : Colors.deepPurple),
-              ),
-            ),
-          );
-        },
+      body: RefreshIndicator(
+        onRefresh: _refreshLeaderboard,
+        child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('leaderboard')
+              .orderBy('score', descending: true)
+              .limit(20)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            final users = snapshot.data!.docs;
+
+            return ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: users.length,
+              itemBuilder: (context, index) {
+                final user = users[index];
+                final rank = index + 1;
+                final name = user['name'];
+                final points = user['score'];
+
+                // 🎖️ Different colors for top 3
+                Color cardColor;
+                if (rank == 1) {
+                  cardColor = Colors.amber.shade400;
+                } else if (rank == 2) {
+                  cardColor = Colors.grey.shade400;
+                } else if (rank == 3) {
+                  cardColor = Colors.brown.shade400;
+                } else {
+                  cardColor = Colors.redAccent;
+                }
+
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 600),
+                  curve: Curves.easeInOut,
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  decoration: BoxDecoration(
+                    color: isDarkMode
+                        ? cardColor.withOpacity(0.2)
+                        : cardColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: cardColor, width: 2),
+                    boxShadow: [
+                      BoxShadow(
+                        color: cardColor.withOpacity(0.4),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                        offset: const Offset(0, 5),
+                      )
+                    ],
+                  ),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 28,
+                      backgroundColor: cardColor,
+                      child: Text(
+                        "$rank",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: isDarkMode ? Colors.black : Colors.white,
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      name,
+                      style: GoogleFonts.poppins(
+                        color: isDarkMode ? Colors.white : Colors.black,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                      ),
+                    ),
+                    subtitle: Text(
+                      "⭐ ${points.toString()} points",
+                      style: GoogleFonts.poppins(
+                        color:
+                        isDarkMode ? Colors.white70 : Colors.grey.shade700,
+                      ),
+                    ),
+                    trailing: rank == 1
+                        ? const Icon(Icons.emoji_events,
+                        color: Colors.amber, size: 30)
+                        : rank == 2
+                        ? const Icon(Icons.emoji_events,
+                        color: Colors.grey, size: 28)
+                        : rank == 3
+                        ? const Icon(Icons.emoji_events,
+                        color: Colors.brown, size: 28)
+                        : Icon(Icons.star,
+                        color: isDarkMode
+                            ? Colors.purpleAccent
+                            : Colors.deepPurple),
+                  ),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

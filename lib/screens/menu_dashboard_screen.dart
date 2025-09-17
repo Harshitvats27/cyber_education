@@ -58,13 +58,13 @@ class MenuDashboardScreen extends StatelessWidget {
         Navigator.push(context, MaterialPageRoute(builder: (_) => AssessmentPage(role: role)));
         break;
       case 7:
-        Navigator.push(context, MaterialPageRoute(builder: (_) => LeaderboardPage(role: role)));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => LeaderboardScreen(role: role)));
         break;
       case 8:
         Navigator.push(context, MaterialPageRoute(builder: (_) => NotificationScreen(role: role)));
         break;
       case 9:
-        Navigator.push(context, MaterialPageRoute(builder: (_) => SettingsScreen(role: role)));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => SettingsPage()));
         break;
       case 10: // Logout
         await FirebaseAuth.instance.signOut();

@@ -162,10 +162,11 @@ class _AssessmentPageState extends State<AssessmentPage> {
         downloadUrl = await ref.getDownloadURL();
       }
 
+      // 🔹 Save submission
       await FirebaseFirestore.instance
           .collection("submissions")
           .doc(user.uid)
-          .collection(widget.role) // Hardcoded role
+          .collection(widget.role)
           .doc(moduleId)
           .collection("questions")
           .doc(questionId)
@@ -177,19 +178,33 @@ class _AssessmentPageState extends State<AssessmentPage> {
 
       questionSubmitted[key] = true;
 
-      // Check if all questions submitted for module
+      // 🔹 Check if all questions submitted for module
       final allSubmitted = moduleQuestions[moduleId]!.every((q) {
         final qKey = "${moduleId}_${q["id"]}";
         return questionSubmitted[qKey] == true;
       });
-      if (allSubmitted) moduleCompleted[moduleId] = true;
+      moduleCompleted[moduleId] = allSubmitted;
+
+      // 🔹 Only update leaderboard if module is fully completed
+      if (allSubmitted) {
+        await FirebaseFirestore.instance.collection("leaderboard").doc(user.uid).set({
+          "uid": user.uid,
+          "name": user.displayName ?? "",
+          "email": user.email ?? "",
+          "photoUrl": user.photoURL ?? "",
+          "lastUpdate": FieldValue.serverTimestamp(),
+          "score": FieldValue.increment(10), // ✅ Increment only once per module
+        }, SetOptions(merge: true));
+      }
 
       setState(() {
         submittingKey = "";
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Answer submitted successfully!")),
+        SnackBar(content: Text(allSubmitted
+            ? "Module completed! Leaderboard updated."
+            : "Answer submitted successfully!")),
       );
     } catch (e) {
       setState(() {
@@ -200,6 +215,7 @@ class _AssessmentPageState extends State<AssessmentPage> {
       );
     }
   }
+
 
   Widget _buildQuestionWidget(Map<String, dynamic> question, String moduleId) {
     final qId = question["id"];

@@ -87,10 +87,12 @@ class _CyberModule4State extends State<CyberModule4> {
         setState(() {});
       }
 
-      // 🔹 Check if user completed module5
+      // 🔹 Check if the user already completed the module for this role
       final completionDoc = await FirebaseFirestore.instance
           .collection("users")
           .doc(user.uid)
+          .collection("roles")
+          .doc(widget.role)                 // role ke hisaab se
           .collection("completedModules")
           .doc("module4")
           .get();
@@ -98,29 +100,58 @@ class _CyberModule4State extends State<CyberModule4> {
       if (completionDoc.exists && completionDoc["completed"] == true) {
         isCompleted = true;
       }
+
     } catch (e) {
-      errorMessage = "⚠️ Failed to load module: $e";
+      setState(() {
+        errorMessage = "⚠️ Failed to load module: $e";
+      });
     }
 
     setState(() {
       isLoading = false;
     });
-  }
 
+    debugPrint("🔹 Loaded module4 for role: ${widget.role}, videoUrl: $videoUrl");
+  }
   Future<void> _markCompleted() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
 
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(user.uid)
-        .collection("completedModules")
-        .doc("module1")
-        .set({"completed": true});
+    final roleName = widget.role; // jo role screen me pass hua hai
+    final moduleName = "module4"; // module ka naam
 
-    setState(() {
-      isCompleted = true;
-    });
+    try {
+      // 🔹 Automatically create structure and set module as completed
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(user.uid)
+          .collection("roles")
+          .doc(roleName)
+          .collection("completedModules")
+          .doc(moduleName)
+          .set({
+        "completed": true,
+      }, SetOptions(merge: true));
+
+      // 🔹 Update overall leaderboard score
+      final leaderboardDoc = FirebaseFirestore.instance.collection("leaderboard").doc(user.uid);
+      await leaderboardDoc.set({
+        "uid": user.uid,
+        "name": user.displayName ?? "",
+        "email": user.email ?? "",
+        "photoUrl": user.photoURL ?? "",
+        "lastUpdate": FieldValue.serverTimestamp(),
+        "score": FieldValue.increment(10), // increment score
+      }, SetOptions(merge: true));
+
+      setState(() {
+        isCompleted = true;
+      });
+
+      debugPrint("✅ Module marked completed & leaderboard updated for ${user.displayName}");
+    } catch (e) {
+      debugPrint("❌ Error updating modules or leaderboard: $e");
+    }
   }
 
   @override

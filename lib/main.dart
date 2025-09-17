@@ -130,14 +130,16 @@
 //     );
 //   }
 // }
-
 import 'package:cyber_education/screens/home_screen.dart';
+import 'package:cyber_education/screens/login_screen.dart';
+import 'package:cyber_education/screens/settings_screen.dart';
+import 'package:cyber_education/utils/app_theme.dart';
+import 'package:cyber_education/utils/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
-import 'utils/app_theme.dart';
-import 'screens/login_screen.dart';
 
 
 void main() async {
@@ -145,7 +147,13 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ThemeProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -153,41 +161,39 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return MaterialApp(
       title: 'Cyber Edu App',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system, // auto switch by system setting
-
+      themeMode: themeProvider.themeMode, // 🔹 bind themeMode
       debugShowCheckedModeBanner: false,
-      // Use home with StreamBuilder to handle persistent login
+
+      // Persistent login with Firebase
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            // Show loading screen while checking
             return const Scaffold(
               body: Center(child: CircularProgressIndicator()),
             );
           }
 
           if (snapshot.hasData) {
-            // User is logged in
-            return const HomeScreen();
+            return const HomeScreen(); // or SettingsPage() for testing
           } else {
-            // User is not logged in
             return const LoginScreen();
           }
         },
       ),
-        // Named routes
-        routes: {
-          '/login': (context) => const LoginScreen(),
-          '/home': (context) => const HomeScreen(),
-         // '/admin': (context) => const AdminScreen(),
 
-        },
+      // Named routes
+      routes: {
+        '/login': (context) => const LoginScreen(),
+        '/home': (context) => const HomeScreen(),
+        '/settings': (context) => const SettingsPage(),
+      },
     );
   }
 }
-
