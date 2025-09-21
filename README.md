@@ -26,15 +26,6 @@ This project uses the following technologies:
 - ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)  
 
 
-## Screenshots
-
-<table>
-  <tr>
-    <td><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" width="300"/></td>
-    <td><img src="https://img.shields.io/badge/C-A8B9CC?style=for-the-badge&logo=c&logoColor=white" width="300"/></td>
-  </tr>
-</table>
-
 **Frontend**-Flutter (Dart)
 
 **Backend**-Firebase (Auth, Functions, Storage, etc.)
